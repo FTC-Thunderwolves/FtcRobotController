@@ -16,8 +16,8 @@ public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class def
     @Override
     public void runOpMode() { // Main method that runs when the Driver Station starts the TeleOp mode.
         // Initialize the left and right motors using hardwareMap to link them with the robot's configuration.
-        leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
-        rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
+        leftMotor = hardwareMap.get(DcMotor.class, "left_drive");
+        rightMotor = hardwareMap.get(DcMotor.class, "right_drive");
 
         // Set the direction of the motors to ensure proper forward/reverse motion.
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
