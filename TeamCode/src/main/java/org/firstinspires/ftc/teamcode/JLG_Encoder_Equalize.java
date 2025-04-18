@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode; // Defines the package where this class 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp; // Import the annotation for TeleOp mode.
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; // Import the LinearOpMode class for sequential operations.
 import com.qualcomm.robotcore.hardware.DcMotor; // Import the DcMotor class for motor control.
+    import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "JLG_Encoder_Equalize", group = "LinearOpMode") // Annotates the class as a TeleOp mode with a name and group.
 public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class definition for the TeleOp mode.
@@ -11,7 +13,8 @@ public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class def
     private DcMotor rightMotor; // Declares the right motor variable.
 
     private static final double BASE_POWER = 0.5; // Sets the default motor power for driving.
-    private static final double CORRECTION_FACTOR = 0.01; // Defines the factor for adjusting motor power discrepancies.
+    private static final double CORRECTION_FACTOR = 0.05; // Defines the factor for adjusting motor power discrepancies.
+
 
     @Override
     public void runOpMode() { // Main method that runs when the Driver Station starts the TeleOp mode.
@@ -31,19 +34,25 @@ public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class def
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        // *** IMPORTANT: Set zero power behavior to BRAKE ***
+       // leftMotor.ZeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE;
+       // rightMotor.ZeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE;
+
         waitForStart(); // Waits for the start button to be pressed on the Driver Station.
 
         while (opModeIsActive()) { // Main loop that runs as long as the TeleOp mode is active.
             // Get the Y-axis value of the left stick to determine forward or reverse motion.
-            double drivePower = -gamepad1.left_stick_y; // Negate the value because forward on the stick is negative.
+            double drivePower = -gamepad1.left_stick_y * 2; // Negate the value because forward on the stick is negative.
+            double turnPower = gamepad1.right_stick_x * 2;// Get the X-axis value of the right stick for turning.
 
             // Retrieve the current encoder positions for both motors.
             int leftPosition = leftMotor.getCurrentPosition();
             int rightPosition = rightMotor.getCurrentPosition();
 
             // Set initial power values for both motors based on the joystick input.
-            double leftPower = BASE_POWER * drivePower;
-            double rightPower = BASE_POWER * drivePower;
+            double leftPower = BASE_POWER * drivePower - turnPower;
+            double rightPower = BASE_POWER * drivePower + turnPower;
+
 
             // Adjust power values to correct discrepancies between the motors.
             if (leftPosition < rightPosition) {
@@ -53,6 +62,22 @@ public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class def
                 leftPower -= CORRECTION_FACTOR; // Reduce power for the left motor to match the right.
                 rightPower += CORRECTION_FACTOR; // Boost power for the right motor if it's lagging behind.
             }
+
+            if (gamepad1.left_stick_y == 0 && gamepad1.right_stick_x == 0) {
+                leftPower = 0;
+                rightPower = 0;
+            }
+
+
+            if(gamepad1.x) {
+                leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            }
+           if(gamepad1.y) {
+               leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+               rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+           }
 
             // Apply corrected power values to the motors to drive the robot.
             leftMotor.setPower(leftPower);
