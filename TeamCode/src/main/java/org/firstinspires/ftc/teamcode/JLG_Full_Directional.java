@@ -38,6 +38,11 @@ public class JLG_Full_Directional extends LinearOpMode {
             double forward = gamepad1.left_stick_y; // Forward/Backward
             double turn = gamepad1.right_stick_x;   // Left/Right turning
 
+            //Speed Modifiers
+            double stopPower = 0;
+
+
+
             // Get encoder counts
             int leftEncoder = leftDrive.getCurrentPosition();
             int rightEncoder = rightDrive.getCurrentPosition();
@@ -47,8 +52,42 @@ public class JLG_Full_Directional extends LinearOpMode {
             double rightPower = forward - turn;
 
             // Apply power to motors
+
+
+            if (gamepad1.x) { //Press X to STOP
+                leftDrive.setPower(stopPower);
+                rightDrive.setPower(stopPower);
+               }
+
+            else if (gamepad1.right_bumper) { //Press RIGHT BUMPER to SPEED UP
+                leftDrive.setPower(leftPower * 1.5);
+                rightDrive.setPower(rightPower * 1.5);
+                }
+
+            else if (gamepad1.left_bumper) { //Press LEFT BUMPER to SLOW DOWN
+                leftDrive.setPower(leftPower * 0.5);
+                rightDrive.setPower(rightPower * 0.5);
+            }
+            else if(gamepad1.y) {  //PRESS Y to RESET ENCODERS
+                leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            }
+            else if(gamepad1.a) {//Press A to MOVE LEFT THEN RIGHT??
+                leftDrive.setPower(1.00);
+                sleep(2000);
+                leftDrive.setPower(0);
+                sleep(2000);
+                rightDrive.setPower(1.00);
+                sleep(2000);
+                rightDrive.setPower(0);
+            }
+
+            else {
             leftDrive.setPower(leftPower);
-            rightDrive.setPower(rightPower);
+            rightDrive.setPower(rightPower);}
 
             //Display Encoder Values on Drive Station
             telemetry.addData("Left Motor Encoder", leftEncoder);
