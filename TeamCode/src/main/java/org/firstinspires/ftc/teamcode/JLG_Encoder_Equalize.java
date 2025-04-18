@@ -3,8 +3,7 @@ package org.firstinspires.ftc.teamcode; // Defines the package where this class 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp; // Import the annotation for TeleOp mode.
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; // Import the LinearOpMode class for sequential operations.
 import com.qualcomm.robotcore.hardware.DcMotor; // Import the DcMotor class for motor control.
-    import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 
 @TeleOp(name = "JLG_Encoder_Equalize", group = "LinearOpMode") // Annotates the class as a TeleOp mode with a name and group.
 public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class definition for the TeleOp mode.
@@ -12,8 +11,8 @@ public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class def
     private DcMotor leftMotor; // Declares the left motor variable.
     private DcMotor rightMotor; // Declares the right motor variable.
 
-    private static final double BASE_POWER = 0.5; // Sets the default motor power for driving.
-    private static final double CORRECTION_FACTOR = 0.05; // Defines the factor for adjusting motor power discrepancies.
+    private static final double BASE_POWER = 1; // Sets the default motor power for driving.
+    private static final double CORRECTION_FACTOR = 0.02; // Defines the factor for adjusting motor power discrepancies.
 
 
     @Override
@@ -42,8 +41,8 @@ public class JLG_Encoder_Equalize extends LinearOpMode { // Begins the class def
 
         while (opModeIsActive()) { // Main loop that runs as long as the TeleOp mode is active.
             // Get the Y-axis value of the left stick to determine forward or reverse motion.
-            double drivePower = -gamepad1.left_stick_y * 2; // Negate the value because forward on the stick is negative.
-            double turnPower = gamepad1.right_stick_x * 2;// Get the X-axis value of the right stick for turning.
+            double drivePower = -gamepad1.left_stick_y; // Negate the value because forward on the stick is negative.
+            double turnPower = gamepad1.right_stick_x;// Get the X-axis value of the right stick for turning.
 
             // Retrieve the current encoder positions for both motors.
             int leftPosition = leftMotor.getCurrentPosition();

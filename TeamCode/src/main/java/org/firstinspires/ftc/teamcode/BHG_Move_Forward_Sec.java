@@ -24,8 +24,8 @@ public class BHG_Move_Forward_Sec extends LinearOpMode {
         waitForStart();
 
 
-        leftDrive.setPower(0.4);
-        rightDrive.setPower(0.4);
+        leftDrive.setPower(-0.4);
+        rightDrive.setPower(-0.4);
         sleep(4000);
 
 
