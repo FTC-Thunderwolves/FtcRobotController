@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp(name = "BHG_Test_Full_Directional", group = "TeleOp")
 public class BHG_Test_Full_Directional extends LinearOpMode {
@@ -32,7 +33,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
         while (opModeIsActive()) {
             // Get gamepad input
-            if(gamepad1.x) {
+            if (gamepad1.x) {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
 
@@ -47,24 +48,39 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             double rightPower = forward - turn;
 
             // Apply power to motors
-            if(leftTrigger) {
-                if(rightTrigger) {
+            if (leftTrigger) {
+                if (rightTrigger) {
                     leftDrive.setPower(leftPower * 1);
                     rightDrive.setPower(rightPower * 1);
                 } else {
                     leftDrive.setPower(leftPower * 0.25);
                     rightDrive.setPower(rightPower * 0.25);
                 }
-            } else if(!leftTrigger) {
+            } else if (!leftTrigger) {
                 leftDrive.setPower(leftPower * 0.5);
                 rightDrive.setPower(rightPower * 0.5);
             }
-
+            TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
+            telemetry.addData("Status", "Waiting for Start");
+            telemetry.update();
+            // Check if the sensor is pressed
+            boolean isPressed = touchSensor.isPressed();
+            if (isPressed) {
+                leftDrive.setPower(0.5);
+                rightDrive.setPower(0.5);
+                sleep(3000);
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
+            }
+            // Display on Driver Station
+            telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
+            telemetry.update();
 
             // Send telemetry data
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
             telemetry.update();
+
         }
     }
 }
