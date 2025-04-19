@@ -137,7 +137,7 @@ public class JLG_Full_Directional extends LinearOpMode {
                     } else {
                         telemetry.addData("Button Pressed", "None");
                     }
-                    telemetry.update();
+                    telemetry.update();//move?
 
 
                 }
