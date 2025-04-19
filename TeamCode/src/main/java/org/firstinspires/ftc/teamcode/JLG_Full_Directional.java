@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "JLG_Full_Directional", group = "TeleOp")
 public class JLG_Full_Directional extends LinearOpMode {
@@ -12,6 +15,8 @@ public class JLG_Full_Directional extends LinearOpMode {
     private DcMotor rightDrive;
 
     TouchSensor touchSensor;
+    DistanceSensor distanceSensor;
+
 
     @Override
     public void runOpMode() {
@@ -38,9 +43,10 @@ public class JLG_Full_Directional extends LinearOpMode {
 
         while (opModeIsActive()) {
             touchSensor  = hardwareMap.get(TouchSensor.class, "touchSensor");
+            distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
             // Get gamepad input
-            double forward = -gamepad1.left_stick_y; // Forward/Backward
+            double forward = gamepad1.left_stick_y; // Forward/Backward
             double turn = -gamepad1.right_stick_x;   // Left/Right turning
 
             //Speed Modifiers
@@ -51,13 +57,13 @@ public class JLG_Full_Directional extends LinearOpMode {
             int rightEncoder = rightDrive.getCurrentPosition();
 
             // Calculate motor power
-            double leftPower = forward + turn;
-            double rightPower = forward - turn;
+            double leftPower = forward - turn;
+            double rightPower = forward + turn;
 
             // Apply power to motors
 
-            leftDrive.setPower(leftPower);
-            rightDrive.setPower(rightPower);
+            leftDrive.setPower(leftPower * 0.5);
+            rightDrive.setPower(rightPower * 0.5);
 
             boolean isPressed = touchSensor.isPressed();
             if(isPressed) {
@@ -72,19 +78,30 @@ public class JLG_Full_Directional extends LinearOpMode {
             if (gamepad1.x) { //Press X to STOP
                 leftDrive.setPower(stopPower);
                 rightDrive.setPower(stopPower);
-            } else if (gamepad1.right_bumper) { //Press RIGHT BUMPER to SPEED UP
+            }
+            if (gamepad1.right_bumper) { //Press RIGHT BUMPER to SPEED UP
                 leftDrive.setPower(leftPower);
                 rightDrive.setPower(rightPower);
-            } else if (gamepad1.left_bumper) { //Press LEFT BUMPER to SLOW DOWN
-                leftDrive.setPower(leftPower * 0.5);
-                rightDrive.setPower(rightPower * 0.5);
-            } else if (gamepad1.y) {  //PRESS Y to RESET ENCODERS
+            }
+
+            //boolean slowMode = gamepad1.left_bumper; // Capture input at start of loop
+            //double speedFactor = slowMode ? 0.25 : 1.0;
+
+            //leftDrive.setPower(leftPower * speedFactor);
+            //rightDrive.setPower(rightPower * speedFactor);
+
+            if (gamepad1.left_bumper) { //Press LEFT BUMPER to SLOW DOWN
+                leftDrive.setPower(leftPower * 0.25);
+                rightDrive.setPower(rightPower * 0.25);
+            }
+            if (gamepad1.y) {  //PRESS Y to RESET ENCODERS
                 leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            } else if (gamepad1.a) {//HOLD A to MOVE LEFT THEN RIGHT??
+            }
+            if (gamepad1.a) {//HOLD A to MOVE LEFT THEN RIGHT??
                 long pressStartTime = System.currentTimeMillis();
 
                 while (gamepad1.a) {
@@ -108,6 +125,8 @@ public class JLG_Full_Directional extends LinearOpMode {
 
 
             }
+
+                telemetry.addData("Distance Sensor", distanceSensor.getDistance(DistanceUnit.INCH));
 
                 //Display Encoder Values on Drive Station
                 telemetry.addData("Left Motor Encoder", leftEncoder);

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -8,12 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class JLG_Touch_Sensor_Testing extends LinearOpMode {
 
     TouchSensor touchSensor;
+    DistanceSensor distanceSensor;
 
     @Override
     public void runOpMode() {
         // Initialize the hardware
         touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
-
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "sensor_distance");
         telemetry.addData("Status", "Waiting for Start");
         telemetry.update();
 
