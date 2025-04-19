@@ -16,6 +16,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
     TouchSensor touchSensor; //Have to do this somewhere I guess....
     DistanceSensor distanceSensor;
+
     @Override
     public void runOpMode() {
         // Initialize motors
@@ -36,8 +37,10 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-           touchSensor  = hardwareMap.get(TouchSensor.class, "touchSensor"); //You could instead do TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
+            touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor"); //You could instead do TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
             distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+
+
             // Get gamepad input
             if (gamepad1.x) {
                 leftDrive.setPower(0);
@@ -77,9 +80,10 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
             }
-            if(distanceSensor)
-            // Display on Driver Station
 
+
+            // Display on Driver Station
+            handleDistance();
             telemetry.addData("Distance Sensor", distanceSensor.getDistance(DistanceUnit.INCH));
             telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
 
@@ -89,6 +93,19 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             telemetry.addData("Right Power", rightPower);
             telemetry.update();
 
+        }
+    }
+    private void handleDistance() {
+        double distance = distanceSensor.getDistance(DistanceUnit.INCH);
+        while (distance < 12 && opModeIsActive()) {
+            leftDrive.setPower(0.7);
+            rightDrive.setPower(0.7);
+            sleep(500);
+            leftDrive.setPower(0.5);
+            sleep(1000);
+
+            // Update the distance for the next iteration
+            distance = distanceSensor.getDistance(DistanceUnit.INCH);
         }
     }
 }
