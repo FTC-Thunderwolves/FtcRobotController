@@ -84,6 +84,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
 
             // Send telemetry data
+
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
             telemetry.update();
