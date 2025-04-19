@@ -11,6 +11,8 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
     private DcMotor leftDrive;
     private DcMotor rightDrive;
 
+    TouchSensor touchSensor; //Have to do this somewhere I guess....
+
     @Override
     public void runOpMode() {
         // Initialize motors
@@ -32,6 +34,8 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+           touchSensor  = hardwareMap.get(TouchSensor.class, "touchSensor"); //You could instead do TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
+
             // Get gamepad input
             if (gamepad1.x) {
                 leftDrive.setPower(0);
@@ -60,7 +64,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
                 leftDrive.setPower(leftPower * 0.5);
                 rightDrive.setPower(rightPower * 0.5);
             }
-            TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
+
             telemetry.addData("Status", "Waiting for Start");
             telemetry.update();
             // Check if the sensor is pressed
