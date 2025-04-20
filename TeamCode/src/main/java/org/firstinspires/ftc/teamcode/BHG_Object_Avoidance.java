@@ -35,9 +35,6 @@ public class BHG_Object_Avoidance extends LinearOpMode {
                 continue; // Skip loop iteration if the distance is invalid
             }
 
-            telemetry.addData("Distance", distance);
-            telemetry.update();
-
             if (distance > 12) {
                 // Move forward
                 leftDrive.setPower(-0.35);
