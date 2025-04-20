@@ -38,12 +38,14 @@ public class JLG_Full_Directional extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        touchSensor  = hardwareMap.get(TouchSensor.class, "touchSensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+
         // Wait for driver to press the start button
         waitForStart();
 
         while (opModeIsActive()) {
-            touchSensor  = hardwareMap.get(TouchSensor.class, "touchSensor");
-            distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+
 
             // Get gamepad input
             double forward = gamepad1.left_stick_y; // Forward/Backward
@@ -64,6 +66,18 @@ public class JLG_Full_Directional extends LinearOpMode {
 
             leftDrive.setPower(leftPower * 0.5);
             rightDrive.setPower(rightPower * 0.5);
+
+            double leftDistance = distanceSensor.getDistance(DistanceUnit.CM);
+
+            if (leftDistance < 10) {
+                leftDrive.setPower(0.5);
+                rightDrive.setPower(-0.5);
+                sleep(500);
+                }
+            else {
+                leftDrive.setPower(leftPower);
+                rightDrive.setPower(leftPower);
+            }
 
             boolean isPressed = touchSensor.isPressed();
             if(isPressed) {
