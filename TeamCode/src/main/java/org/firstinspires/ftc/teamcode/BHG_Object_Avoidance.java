@@ -24,7 +24,12 @@ public class BHG_Object_Avoidance extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
 
-        waitForStart();
+        waitForStart();  // Ben - make it so that robot moves forward until it detects an object
+                          // When it detects an object, it stops and waits for gamepad input
+                        //  Press one button to turn right and then go forward until detects object
+                        //  Press another button to turn left and then go forward until detects object
+                        //  Repeat
+                        //  Maybe this needs to be TeleOp though???????
 
         while (opModeIsActive()) {
             double distance = distanceSensor.getDistance(DistanceUnit.INCH);
