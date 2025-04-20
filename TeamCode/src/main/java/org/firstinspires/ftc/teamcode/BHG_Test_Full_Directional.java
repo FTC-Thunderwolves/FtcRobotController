@@ -58,8 +58,8 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
             // Apply power to motors
             if (leftBumper && rightBumper) {
-                    leftDrive.setPower(leftPower * 1);
-                    rightDrive.setPower(rightPower * 1);
+                leftDrive.setPower(leftPower * 1);
+                rightDrive.setPower(rightPower * 1);
             } else if (leftBumper) {
                 leftDrive.setPower(leftPower * 0.25);
                 rightDrive.setPower(rightPower * 0.25);
