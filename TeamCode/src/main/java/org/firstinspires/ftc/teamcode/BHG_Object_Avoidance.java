@@ -13,7 +13,6 @@ public class BHG_Object_Avoidance extends LinearOpMode {
     private DcMotor rightDrive;
     DistanceSensor distanceSensor;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
