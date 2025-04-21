@@ -122,15 +122,18 @@ public class JLG_Full_Directional extends LinearOpMode {
                     long timePressed = System.currentTimeMillis() - pressStartTime;
 
                     if (timePressed >= 2000) {
+                        gamepad1.rumble(500);
                         leftDrive.setPower(1.00);
                         rightDrive.setPower(1.00);
                         sleep(2000);
                         leftDrive.setPower(0);
                         rightDrive.setPower(1.00);
                         sleep(2000);
+                        rightDrive.setPower(0);
                         leftDrive.setPower(1.00);
                         sleep(2000);
                         rightDrive.setPower(0);
+                        leftDrive.setPower(0);
 
                         break;
                     }
