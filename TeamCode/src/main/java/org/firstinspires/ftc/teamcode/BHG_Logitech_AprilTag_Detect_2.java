@@ -9,7 +9,7 @@ import java.util.List; // Imports List functionality for storing multiple detect
 //Second Vision Portal (by Sophie)
 
 @Autonomous(name="AprilTag Detection", group="Vision") // Defines this OpMode as an autonomous program
-public class BHG_Logitech_AprilTag_Detect extends LinearOpMode { // Creates a class extending LinearOpMode
+public class BHG_Logitech_AprilTag_Detect_2 extends LinearOpMode { // Creates a class extending LinearOpMode
     public VisionPortal visionPortal; // Declares the VisionPortal for handling camera input
     public AprilTagProcessor aprilTagProcessor; // Declares the AprilTag processor for detecting AprilTags
 
@@ -31,24 +31,31 @@ public class BHG_Logitech_AprilTag_Detect extends LinearOpMode { // Creates a cl
 
         while (opModeIsActive()) { // Runs continuously while the OpMode is active
             List<AprilTagDetection> detections = aprilTagProcessor.getDetections(); // Retrieves detected AprilTags
+            if (detections.isEmpty()) {
+                telemetry.addData("NO TAG DETECTED", "No AprilTags found");
+                telemetry.update(); // Displays message for no tag detection
+            } else {
 
-            for (AprilTagDetection tag : detections) { // Loops through all detected AprilTags
-                int TagId = tag.id;
-                if (TagId == 11) { // Checks if the detected tag is ID 11 (Into the Deep AprilTag)
-                    telemetry.addData("AprilTag Detected!", "ID: %d", tag.id);
-                    telemetry.update();// Displays AprilTag detection info
-                } else if (TagId !=  11) {
-                    telemetry.addData("NO APRILTAG", "ONLY IDIOT DETECTED!!!");
-                    telemetry.update();
+
+                for (AprilTagDetection tag : detections) { // Loops through all detected AprilTags
+                    int TagId = tag.id;
+                    if (TagId == 11) { // Checks if the detected tag is ID 11 (Into the Deep AprilTag)
+                        telemetry.addData("Correct AprilTag Detected!", "ID: %d", tag.id);
+                        telemetry.update();// Displays AprilTag detection info
+                    } else if (TagId != 11) {
+                        telemetry.addData("Wrong AprilTag", "Looking for TagId 11");
+                        telemetry.update();
+                    }
+
+
                 }
 
-
+                telemetry.update(); // Updates the telemetry display with the detection info
             }
-
-            telemetry.update(); // Updates the telemetry display with the detection info
         }
 
         visionPortal.close(); // Closes the VisionPortal when the OpMode ends
 
     }
 }
+
