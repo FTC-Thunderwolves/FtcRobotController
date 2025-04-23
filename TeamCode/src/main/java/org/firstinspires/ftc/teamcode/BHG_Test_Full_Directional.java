@@ -49,7 +49,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
                 break;
             }
             double forward = gamepad1.left_stick_y; // Forward/Backward
-            double turn = gamepad1.left_stick_x;   // Left/Right turning
+            double turn = gamepad1.right_stick_x;   // Left/Right turning
             // Calculate motor power
             boolean leftBumper = gamepad1.left_bumper;
             boolean rightBumper = gamepad1.right_bumper;
