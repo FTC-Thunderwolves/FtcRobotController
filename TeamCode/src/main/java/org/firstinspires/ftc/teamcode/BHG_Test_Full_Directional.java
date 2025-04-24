@@ -5,8 +5,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.vision.VisionPortal; // FTC Vision Portal for handling camera input
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor; // AprilTag processing library
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection; // Handles individual AprilTag detections
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import java.util.List; // Imports List functionality for storing multiple detections
+//Second Vision Portal (by Sophie)
 
 @TeleOp(name = "BHG_Test_Full_Directional", group = "TeleOp")
 public class BHG_Test_Full_Directional extends LinearOpMode {
@@ -16,6 +21,8 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
     TouchSensor touchSensor; //Have to do this somewhere I guess....
     DistanceSensor distanceSensor;
+    public VisionPortal visionPortal; // Declares the VisionPortal for handling camera input
+    public AprilTagProcessor aprilTagProcessor; // Declares the AprilTag processor for detecting AprilTags
 
     @Override
     public void runOpMode() {
@@ -26,6 +33,14 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
         // Set motor direction (adjust based on physical setup)
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        aprilTagProcessor = new AprilTagProcessor.Builder().build(); // Creates an AprilTagProcessor instance
+
+        // Create VisionPortal with webcam
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")) // Uses the configured webcam
+                .addProcessor(aprilTagProcessor) // Adds the AprilTag processor to handle detections
+                .build(); // Builds the VisionPortal instance
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -39,6 +54,8 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
         while (opModeIsActive()) {
             touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor"); //You could instead do TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
             distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+
+
 
 
             // Get gamepad input
@@ -78,11 +95,44 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
             }
+            double distance = distanceSensor.getDistance(DistanceUnit.INCH);
+            if (Double.isNaN(distance)) {
+                telemetry.addData("Distance", "Invalid");
+                telemetry.update();
+                continue; // Skip loop iteration if the distance is invalid
+            }
+
+          if (distance <= 12) {
+                // Reverse when too close
+                leftDrive.setPower(0.25);
+                rightDrive.setPower(0.25);
+                sleep(1500);
+                leftDrive.setPower(-0.5);
+                rightDrive.setPower(0);
+                sleep(1000);
+            }
 
 
             // Display on Driver Station
             handleDistance();
-            telemetry.addData("Distance Sensor", distanceSensor.getDistance(DistanceUnit.INCH));
+
+            List<AprilTagDetection> detections = aprilTagProcessor.getDetections(); // Retrieves detected AprilTags
+            if (detections.isEmpty()) {
+                telemetry.addData("NO TAG DETECTED", "No AprilTags found");
+
+            } else {
+
+
+                for (AprilTagDetection tag : detections) { // Loops through all detected AprilTags
+                    telemetry.addData("AprilTag Detected!", "ID: %d", tag.id);
+
+
+
+                }
+
+
+            }
+            telemetry.addData("Distance", distanceSensor.getDistance(DistanceUnit.INCH));
             telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
 
             // Send telemetry data
@@ -90,8 +140,9 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
             telemetry.update();
-
         }
+        visionPortal.close(); // Closes the VisionPortal when the OpMode ends
+
     }
     private void handleDistance() {
         double distance = distanceSensor.getDistance(DistanceUnit.INCH);
@@ -105,5 +156,6 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             // Update the distance for the next iteration
             distance = distanceSensor.getDistance(DistanceUnit.INCH);
         }
-    }
+
+   }
 }
