@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "Object Avoidance", group = "Autonomous")
+@Autonomous(name = "BHG_Object Avoidance", group = "Autonomous")
 public class BHG_Object_Avoidance extends LinearOpMode {
     private DcMotor leftDrive;
     private DcMotor rightDrive;

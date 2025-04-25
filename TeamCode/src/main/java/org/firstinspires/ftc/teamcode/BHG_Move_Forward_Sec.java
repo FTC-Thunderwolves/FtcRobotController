@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Auton Stuff", group = "Autonomous")
+@Autonomous(name = "BHG_Move_Forward_Sec", group = "Autonomous")
 public class BHG_Move_Forward_Sec extends LinearOpMode {
 
     private DcMotor leftDrive;

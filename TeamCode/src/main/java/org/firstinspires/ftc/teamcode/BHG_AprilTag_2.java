@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import java.util.List; // Imports List functionality for storing multiple detections
 //Second Vision Portal (by Sophie)
 
-@Autonomous(name="AprilTag Detection", group="Vision") // Defines this OpMode as an autonomous program
+@Autonomous(name="BHG_AprilTag_2", group="Autonomous") // Defines this OpMode as an autonomous program
 public class BHG_AprilTag_2 extends LinearOpMode { // Creates a class extending LinearOpMode
     private DcMotor leftDrive;
     private DcMotor rightDrive;
