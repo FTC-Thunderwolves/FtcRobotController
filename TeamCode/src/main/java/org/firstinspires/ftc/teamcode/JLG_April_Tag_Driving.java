@@ -155,14 +155,14 @@ public class JLG_April_Tag_Driving extends LinearOpMode
                 double  headingError = desiredTag.ftcPose.bearing;
 
                 // Use the speed and turn "gains" to calculate how we want the robot to move.  Clip it to the maximum
-                drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+                drive = Range.clip(-rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                 turn  = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
 
                 telemetry.addData("Auto","Drive %5.2f, Turn %5.2f", drive, turn);
             } else {
 
                 // drive using manual POV Joystick mode.
-                drive = -gamepad1.left_stick_y  / 2.0;  // Reduce drive rate to 50%.
+                drive = gamepad1.left_stick_y  / 2.0;  // Reduce drive rate to 50%.
                 turn  = -gamepad1.right_stick_x / 4.0;  // Reduce turn rate to 25%.
                 telemetry.addData("Manual","Drive %5.2f, Turn %5.2f", drive, turn);
             }
