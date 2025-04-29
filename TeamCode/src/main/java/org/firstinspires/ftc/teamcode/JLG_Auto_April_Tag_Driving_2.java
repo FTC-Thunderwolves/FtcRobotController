@@ -18,8 +18,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 
-@Autonomous(name = "JLG_Auto_April_Tag2", group = "Autonomous")
-public class JLG_Auto_April_Tag2 extends LinearOpMode {
+@Autonomous(name = "JLG_Auto_April_Tag_Driving2", group = "Autonomous")
+public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
 
     //Declaring Variables for Motors and Distance Sensor
     private DcMotor leftDrive;
