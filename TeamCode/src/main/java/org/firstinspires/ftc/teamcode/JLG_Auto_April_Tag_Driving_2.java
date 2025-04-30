@@ -91,6 +91,8 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
                 double headingError = desiredTag.ftcPose.bearing;
                 drive = -rangeError * SPEED_GAIN;
                 turn = headingError * TURN_GAIN;
+                leftDrive.setPower(drive + turn);
+                rightDrive.setPower(drive - turn);
             }
             else {
 
