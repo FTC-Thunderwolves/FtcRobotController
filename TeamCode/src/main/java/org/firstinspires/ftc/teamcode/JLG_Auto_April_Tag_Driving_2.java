@@ -22,15 +22,17 @@ import java.util.List;
 public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
 
     //Declaring Variables for Motors and Distance Sensor
-    private DcMotor leftDrive;
-    private DcMotor rightDrive;
+
+    //Pink means its a variable we created that is used at some point
+    private DcMotor leftDrive;  //On this line, we are assigning a variable "leftDrive" of type DcMotor.
+    private DcMotor rightDrive;  //The DcMotor function(?) comes from the com.qualcomm.robotcore.hardware.DcMotor class.
     DistanceSensor distanceSensor;
 
     //Declaring Variables for Autodrive Stuff
     final double    DESIRED_DISTANCE = 8.0; //Sets desired distance to 8 inches.  Let's figure out how to set it to cm later.
     final double    SPEED_GAIN = 0.02; //
     final double    TURN_GAIN = 0.01;
-    final double    MAX_AUTO_SPEED = 0.5;
+    final double    MAX_AUTO_SPEED = 0.5;  //Grey means the variable isn't used below...
     final double    MAX_AUTO_TURN = 0.25;
 
     //Declaring Variables for the AprilTag
