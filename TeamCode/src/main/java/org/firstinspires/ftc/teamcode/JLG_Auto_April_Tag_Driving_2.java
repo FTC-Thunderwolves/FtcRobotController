@@ -45,8 +45,8 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         boolean targetFound = false;  //Variable to define if AprilTag has been found
-        double drive = 0;  //Forward power/speed (-1 to +1) +1 is forward
-        double turn = 0;  //Turning power/speed (-1 to +1) +1 is CounterClockwise
+        //double drive = 0;  //Forward power/speed (-1 to +1) +1 is forward
+        //double turn = 0;  //Turning power/speed (-1 to +1) +1 is CounterClockwise
 
         initAprilTag(); // This is a method that can be found at the bottom.  I don't think in this case we need to use a method, but apparently it's good practice.  Let's talk about it.
         initDrive();  // same deal here, just playing with methods
@@ -91,10 +91,19 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
             if (targetFound) {
                 double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
                 double headingError = desiredTag.ftcPose.bearing;
-                drive = -rangeError * SPEED_GAIN;
-                turn = headingError * TURN_GAIN;
-                leftDrive.setPower(drive + turn);
-                rightDrive.setPower(drive - turn);
+
+
+                if (desiredTag.ftcPose.range > 6) {
+                    double drive = -rangeError * SPEED_GAIN;
+                    double turn = headingError * TURN_GAIN;
+                    leftDrive.setPower(drive + turn);
+                    rightDrive.setPower(drive - turn);
+                } else {
+                    leftDrive.setPower(0);
+                    rightDrive.setPower(0);
+                }
+
+
             }
             else {
 
