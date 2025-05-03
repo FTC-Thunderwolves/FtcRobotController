@@ -91,14 +91,17 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
             if (targetFound) {
                 double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
                 double headingError = desiredTag.ftcPose.bearing;
+                telemetry.addData("Target Found", "True");
 
 
                 if (desiredTag.ftcPose.range > 6) {
+                    telemetry.addData("Target Found And", "Distance > 6");
                     double drive = -rangeError * SPEED_GAIN;
                     double turn = headingError * TURN_GAIN;
                     leftDrive.setPower(drive + turn);
                     rightDrive.setPower(drive - turn);
                 } else {
+                    telemetry.addData("Target Found And", "Distance <= 6");
                     leftDrive.setPower(0);
                     rightDrive.setPower(0);
                 }
@@ -110,10 +113,11 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
 
                 if (distance > 12) {
                     // Move forward
+                    telemetry.addData("Distance", "Greater Than 12");
                     leftDrive.setPower(-0.35);
                     rightDrive.setPower(-0.35);
                 } else if (distance <= 12) {
-
+                    telemetry.addData("Distance", "Less Than 12");
                     //So I asked CoPilot how to generate a number between -0.5 and 0.5.  It gave me several ways to do it, this seemed to be the most simple.
                     //Math.random() generates a random double between 0 and 1, so we subtract 0.5 from it to get a number between -0.5 and 0.5.
                     //This approach doesn't require any extra import statements at the top since math methods are always included.  Other options use import java.util.Random
