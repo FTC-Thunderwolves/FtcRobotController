@@ -162,3 +162,34 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
         rightDrive.setDirection(DcMotor.Direction.FORWARD);}
 }
 
+/*
+if (!targetFound && distance > 12) {
+    leftDrive.setPower(-0.35);
+    rightDrive.setPower(-0.35);
+}
+else if (!targetFound && distance <= 12) {
+    double randomNumberX = Math.random() - 0.5;
+    double randomNumberY = Math.random() - 0.5;
+
+    leftDrive.setPower(randomNumberX);
+    rightDrive.setPower(randomNumberY);
+    sleep(1500);
+    leftDrive.setPower(randomNumberX);
+    rightDrive.setPower(randomNumberY);
+    sleep(1000);
+}
+else if (targetFound) {
+    double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+    double headingError = desiredTag.ftcPose.bearing;
+
+    if (desiredTag.ftcPose.range > 6) {
+        double drive = -rangeError * SPEED_GAIN;
+        double turn = headingError * TURN_GAIN;
+        leftDrive.setPower(drive + turn);
+        rightDrive.setPower(drive - turn);
+    } else {
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+}
+ */
