@@ -84,7 +84,7 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
             telemetry.addData("Distance", "%.2f in", distance);
             telemetry.update();
 
-
+//Testing
             //Try to edit code below to have the robot approach the tag and stop at 3 inches.
             //Need to resolve the robot automatically doing its random routine when <12 inches though.
 
