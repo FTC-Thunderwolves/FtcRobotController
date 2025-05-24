@@ -32,7 +32,7 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
     final double    DESIRED_DISTANCE = 8.0; //Sets desired distance to 8 inches.  Let's figure out how to set it to cm later.
     final double    SPEED_GAIN = 0.02; //
     final double    TURN_GAIN = 0.01;
-    final double    MAX_AUTO_SPEED = 0.5;  //Grey means the variable isn't used below...
+    final double    MAX_AUTO_SPEED = 0.5;
     final double    MAX_AUTO_TURN = 0.25;
 
     //Declaring Variables for the AprilTag
