@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal; // FTC Vision Portal for handling camera input
@@ -18,9 +19,11 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
     private DcMotor leftDrive;
     private DcMotor rightDrive;
+    public Servo servo;
 
     TouchSensor touchSensor; //Have to do this somewhere I guess....
     DistanceSensor distanceSensor;
+
     public VisionPortal visionPortal; // Declares the VisionPortal for handling camera input
     public AprilTagProcessor aprilTagProcessor; // Declares the AprilTag processor for detecting AprilTags
 
@@ -29,6 +32,11 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
         // Initialize motors
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+
+        servo = hardwareMap.get(Servo.class, "servo");
+
+        double servoPosition = 0;
+        servo.setPosition(servoPosition);
 
         // Set motor direction (adjust based on physical setup)
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -78,13 +86,34 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
                 leftDrive.setPower(leftPower * 0.5);
                 rightDrive.setPower(rightPower * 0.5);
             }
-            // Get gamepad input
+            // Get game pad input
             if (gamepad1.x) {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
                 sleep(1000);
                 leftDrive.setPower(gamepad1.left_stick_y);
                 rightDrive.setPower(gamepad1.left_stick_y);
+            }
+            if(gamepad1.dpad_down) {
+               servoPosition = 0;
+               servo.setPosition(servoPosition);
+            } else if(gamepad1.dpad_up) {
+                servoPosition = 1;
+                servo.setPosition(servoPosition);
+            } else if(gamepad1.dpad_right) {
+                if(servoPosition >= 1) {
+                    servo.setPosition(1);
+                } else {
+                    servoPosition = servoPosition + 0.1;
+                    servo.setPosition(servoPosition);
+                }
+            } else if(gamepad1.dpad_left) {
+                if(servoPosition <= 0)  {
+                    servo.setPosition(0);
+                } else {
+                    servoPosition = servoPosition - 0.1;
+                    servo.setPosition(servoPosition);
+                }
             }
 
             // Check if the sensor is pressed
@@ -128,6 +157,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
+            telemetry.addData("Servo Position", servoPosition);
             telemetry.update();
         }
         visionPortal.close(); // Closes the VisionPortal when the OpMode ends

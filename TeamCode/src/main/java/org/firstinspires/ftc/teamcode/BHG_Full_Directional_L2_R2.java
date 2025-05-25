@@ -12,7 +12,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection; // Handles indiv
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import java.util.List;
 
-@TeleOp(name = "BHG_Full_Directional_L2_R2", group = "TeleOp")
+@TeleOp(name = "BHG Full L2 R2", group = "TeleOp")
 public class BHG_Full_Directional_L2_R2 extends LinearOpMode{
     private DcMotor leftDrive;
     private DcMotor rightDrive;
