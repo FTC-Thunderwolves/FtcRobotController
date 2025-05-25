@@ -43,6 +43,9 @@ public class BHG_Full_Directional_L2_R2 extends LinearOpMode{
 
                 leftDrive.setPower(gamepad1.left_trigger * 0.5 + turn);
                 rightDrive.setPower(gamepad1.left_trigger * 0.5 - turn);
+            } else if(turn != 0) {
+                leftDrive.setPower(turn);
+                rightDrive.setPower(turn);
             } else {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);

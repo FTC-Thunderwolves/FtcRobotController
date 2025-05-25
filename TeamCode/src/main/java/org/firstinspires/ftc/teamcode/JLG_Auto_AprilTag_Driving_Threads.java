@@ -88,7 +88,7 @@ public class JLG_Auto_AprilTag_Driving_Threads extends LinearOpMode {
     private void initHardware() {
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance_sensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
     }
