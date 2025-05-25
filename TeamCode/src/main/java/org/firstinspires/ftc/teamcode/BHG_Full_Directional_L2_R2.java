@@ -41,11 +41,11 @@ public class BHG_Full_Directional_L2_R2 extends LinearOpMode{
                 rightDrive.setPower(-gamepad1.right_trigger * 0.5 - turn);
             } else if(gamepad1.left_trigger > 0) {
 
-                leftDrive.setPower(gamepad1.left_trigger * 0.5 + turn);
-                rightDrive.setPower(gamepad1.left_trigger * 0.5 - turn);
+                leftDrive.setPower(gamepad1.left_trigger * 0.5 - turn);
+                rightDrive.setPower(gamepad1.left_trigger * 0.5 + turn);
             } else if(turn != 0) {
                 leftDrive.setPower(turn);
-                rightDrive.setPower(turn);
+                rightDrive.setPower(-turn);
             } else {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
@@ -116,14 +116,14 @@ public class BHG_Full_Directional_L2_R2 extends LinearOpMode{
     private void handleDistance() {
         double distance = distanceSensor.getDistance(DistanceUnit.INCH);
         while (distance <= 12 && opModeIsActive()) {
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
+            leftDrive.setPower(0.3);
+            rightDrive.setPower(0.3);
             sleep(500);
-            leftDrive.setPower(gamepad1.left_stick_y);
-            rightDrive.setPower(gamepad1.left_stick_y);
+
 
             // Update the distance for the next iteration
             distance = distanceSensor.getDistance(DistanceUnit.INCH);
+
         }
 
     }

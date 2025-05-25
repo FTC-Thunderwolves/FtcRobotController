@@ -96,7 +96,7 @@ public class JLG_Auto_AprilTag_Driving_Threads extends LinearOpMode {
     private void initAprilTag() {
         aprilTagProcessor = new AprilTagProcessor.Builder().build();
         visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessor(aprilTagProcessor)
                 .build();
     }
