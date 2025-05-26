@@ -71,7 +71,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
                 leftDrive.setPower(gamepad1.left_stick_y);
                 rightDrive.setPower(gamepad1.left_stick_y);
             }
-
+//hi this is so i can commit this
             servoStuff();
 
             // Check if the sensor is pressed
