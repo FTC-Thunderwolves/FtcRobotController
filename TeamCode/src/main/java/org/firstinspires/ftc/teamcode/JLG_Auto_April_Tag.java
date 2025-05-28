@@ -14,7 +14,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-
 import java.util.List;
 
 
@@ -43,11 +42,29 @@ public class JLG_Auto_April_Tag extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         boolean targetFound = false;  //Variable to define if AprilTag has been found
-        double drive = 0;  //Forward power/speed (-1 to +1) +1 is forward
-        double turn = 0;  //Turning power/speed (-1 to +1) +1 is CounterClockwise
+        double drive = 0;  //Forward power/speed (-1 to +1) +ve is forward
+        double turn = 0;  //Turning power/speed (-1 to +1) +ve is CounterClockwise
 
-        initAprilTag(); // This is a method that can be found at the bottom.  I don't think in this case we need to use a method, but apparently it's good practice.  Let's talk about it.
-        initDrive();  // same deal here, just playing with methods
+        //This goes to a class at the bottom.  Initializes the AprilTag Detection process
+        aprilTag = new AprilTagProcessor.Builder().build();
+        aprilTag.setDecimation(2);
+
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(BuiltinCameraDirection.BACK)
+                .addProcessor(aprilTag)
+                .build();
+
+
+        // Standard Drive Stuff for 2 motors we know this already
+        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
+        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        //We can use the below line to mess with exposure time of the webcam.  Motion blur can mess up settings I guess?
+
+
 
         telemetry.addData("Status", "Initialized" ,"Camera Stream Available");
         telemetry.addData("<", "Touch START to start OpMode");
@@ -78,14 +95,6 @@ public class JLG_Auto_April_Tag extends LinearOpMode {
                     }
                 }
 
-            double distance = distanceSensor.getDistance(DistanceUnit.INCH);
-            telemetry.addData("Distance", "%.2f in", distance);
-            telemetry.update();
-
-
-            //Try to edit code below to have the robot approach the tag and stop at 3 inches.
-            //Need to resolve the robot automatically doing its random routine when <12 inches though.
-
             if (targetFound) {
                 double rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
                 double headingError = desiredTag.ftcPose.bearing;
@@ -93,27 +102,19 @@ public class JLG_Auto_April_Tag extends LinearOpMode {
                 turn = headingError * TURN_GAIN;
                 }
            else {
-
+            double distance = distanceSensor.getDistance(DistanceUnit.INCH);
 
             if (distance > 12) {
                 // Move forward
                 leftDrive.setPower(-0.35);
                 rightDrive.setPower(-0.35);
             } else if (distance <= 12) {
-
-                //So I asked CoPilot how to generate a number between -0.5 and 0.5.  It gave me several ways to do it, this seemed to be the most simple.
-                //Math.random() generates a random double between 0 and 1, so we subtract 0.5 from it to get a number between -0.5 and 0.5.
-                //This approach doesn't require any extra import statements at the top since math methods are always included.  Other options use import java.util.Random
-
-                double randomNumberX = Math.random() - 0.5;
-                double randomNumberY = Math.random() - 0.5;
-
-                // Trying to make it do random stuff when the distance sensor triggers.
-                leftDrive.setPower(randomNumberX);
-                rightDrive.setPower(randomNumberY);
+                // Reverse when too close
+                leftDrive.setPower(0.25);
+                rightDrive.setPower(0.25);
                 sleep(1500);
-                leftDrive.setPower(randomNumberX);
-                rightDrive.setPower(randomNumberY);
+                leftDrive.setPower(-0.5);
+                rightDrive.setPower(0);
                 sleep(1000);
             }
 
@@ -129,23 +130,5 @@ public class JLG_Auto_April_Tag extends LinearOpMode {
 
 
         }
-        private void initAprilTag(){
-            // Initializes the AprilTag Detection process
-            aprilTag = new AprilTagProcessor.Builder().build();
-
-            //This can be changed to trade-off detection-range for detection-rate.
-            aprilTag.setDecimation(2);
-
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .addProcessor(aprilTag)
-                    .build();
-        }
-    private void initDrive() {
-        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);}
     }
 

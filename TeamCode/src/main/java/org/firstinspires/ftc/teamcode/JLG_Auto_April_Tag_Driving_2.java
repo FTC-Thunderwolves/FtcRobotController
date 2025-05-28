@@ -108,15 +108,13 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
 
 
             }
-            else {
 
-
-                if (distance > 12) {
+                if (distance > 12 && !targetFound) {
                     // Move forward
                     telemetry.addData("Distance", "Greater Than 12");
                     leftDrive.setPower(-0.35);
                     rightDrive.setPower(-0.35);
-                } else if (distance <= 12) {
+                } else if (distance <= 12 && !targetFound) {
                     telemetry.addData("Distance", "Less Than 12");
                     //So I asked CoPilot how to generate a number between -0.5 and 0.5.  It gave me several ways to do it, this seemed to be the most simple.
                     //Math.random() generates a random double between 0 and 1, so we subtract 0.5 from it to get a number between -0.5 and 0.5.
@@ -129,15 +127,13 @@ public class JLG_Auto_April_Tag_Driving_2 extends LinearOpMode {
                     leftDrive.setPower(randomNumberX);
                     rightDrive.setPower(randomNumberY);
                     sleep(1500);
-                    leftDrive.setPower(randomNumberX);
-                    rightDrive.setPower(randomNumberY);
-                    sleep(1000);
+                    
                 }
 
 
 
 
-            }
+
 
 
 
