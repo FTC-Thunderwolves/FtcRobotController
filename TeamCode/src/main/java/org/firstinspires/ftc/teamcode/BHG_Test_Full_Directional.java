@@ -12,9 +12,9 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor; // AprilTag proc
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection; // Handles individual AprilTag detections
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import java.util.List; // Imports List functionality for storing multiple detections
-//Second Vision Portal (by Sophie)
+/*Second Vision Portal (by Sophie)*/
 
-@TeleOp(name = "BHG_Full_Directional", group = "TeleOp")
+@TeleOp(name = "BHG Full Directional", group = "TeleOp")
 public class BHG_Test_Full_Directional extends LinearOpMode {
 
     private DcMotor leftDrive;
@@ -30,32 +30,9 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize motors
-        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        hardwareStart();
 
-        servo = hardwareMap.get(Servo.class, "servo");
 
-        double servoPosition = 0;
-        servo.setPosition(servoPosition);
-
-        // Set motor direction (adjust based on physical setup)
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
-
-        aprilTagProcessor = new AprilTagProcessor.Builder().build(); // Creates an AprilTagProcessor instance
-
-        // Create VisionPortal with webcam
-        visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")) // Uses the configured webcam
-                .addProcessor(aprilTagProcessor) // Adds the AprilTag processor to handle detections
-                .build(); // Builds the VisionPortal instance
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        // Wait for driver to press the start button
-        telemetry.addData("Status", "Waiting for Start");
-        telemetry.update();
 
         waitForStart();
 
@@ -94,27 +71,8 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
                 leftDrive.setPower(gamepad1.left_stick_y);
                 rightDrive.setPower(gamepad1.left_stick_y);
             }
-            if(gamepad1.dpad_down) {
-               servoPosition = 0;
-               servo.setPosition(servoPosition);
-            } else if(gamepad1.dpad_up) {
-                servoPosition = 1;
-                servo.setPosition(servoPosition);
-            } else if(gamepad1.dpad_right) {
-                if(servoPosition >= 1) {
-                    servo.setPosition(1);
-                } else {
-                    servoPosition = servoPosition + 0.1;
-                    servo.setPosition(servoPosition);
-                }
-            } else if(gamepad1.dpad_left) {
-                if(servoPosition <= 0)  {
-                    servo.setPosition(0);
-                } else {
-                    servoPosition = servoPosition - 0.1;
-                    servo.setPosition(servoPosition);
-                }
-            }
+//hi this is so i can commit this
+            servoStuff();
 
             // Check if the sensor is pressed
             boolean isPressed = touchSensor.isPressed();
@@ -137,7 +95,6 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             List<AprilTagDetection> detections = aprilTagProcessor.getDetections(); // Retrieves detected AprilTags
             if (detections.isEmpty()) {
                 telemetry.addData("NO TAG DETECTED", "No AprilTags found");
-
             } else {
 
 
@@ -157,7 +114,6 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
-            telemetry.addData("Servo Position", servoPosition);
             telemetry.update();
         }
         visionPortal.close(); // Closes the VisionPortal when the OpMode ends
@@ -176,5 +132,56 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             distance = distanceSensor.getDistance(DistanceUnit.INCH);
         }
 
+   }
+   private void hardwareStart() {
+       leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
+       rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+       servo = hardwareMap.get(Servo.class, "servo");
+
+
+       // Set motor direction (adjust based on physical setup)
+       leftDrive.setDirection(DcMotor.Direction.REVERSE);
+       rightDrive.setDirection(DcMotor.Direction.FORWARD);
+
+       aprilTagProcessor = new AprilTagProcessor.Builder().build(); // Creates an AprilTagProcessor instance
+
+       // Create VisionPortal with webcam
+       visionPortal = new VisionPortal.Builder()
+               .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")) // Uses the configured webcam
+               .addProcessor(aprilTagProcessor) // Adds the AprilTag processor to handle detections
+               .build(); // Builds the VisionPortal instance
+
+       telemetry.addData("Status", "Initialized");
+       telemetry.update();
+
+       // Wait for driver to press the start button
+       telemetry.addData("Status", "Waiting for Start");
+       telemetry.update();
+   }
+   private void servoStuff() {
+       double servoPosition = 0;
+       servo.setPosition(servoPosition);
+       if(gamepad1.dpad_down) {
+           servoPosition = 0;
+           servo.setPosition(servoPosition);
+       } else if(gamepad1.dpad_up) {
+           servoPosition = 1;
+           servo.setPosition(servoPosition);
+       } else if(gamepad1.dpad_right) {
+           if(servoPosition >= 1) {
+               servo.setPosition(1);
+           } else {
+               servoPosition = servoPosition + 0.1;
+               servo.setPosition(servoPosition);
+           }
+       } else if(gamepad1.dpad_left) {
+           if(servoPosition <= 0)  {
+               servo.setPosition(0);
+           } else {
+               servoPosition = servoPosition - 0.1;
+               servo.setPosition(servoPosition);
+           }
+       }
+       telemetry.addData("Servo Position", servoPosition);
    }
 }
