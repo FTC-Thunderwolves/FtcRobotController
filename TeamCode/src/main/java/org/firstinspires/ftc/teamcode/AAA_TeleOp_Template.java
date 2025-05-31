@@ -7,7 +7,7 @@ package org.firstinspires.ftc.teamcode;
 //Android Studio SHOULD Autofill These as you code
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 
 
