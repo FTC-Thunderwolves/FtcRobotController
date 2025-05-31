@@ -43,15 +43,7 @@ private DcMotor rightDrive;
         //This is where we will enter the things we want the robot to do
 
 
-        double forward = gamepad1.left_stick_y; // Forward/Backward
-        double turn = -gamepad1.right_stick_x;   // Left/Right turning
 
-        double rightPower = forward + turn;
-        double leftPower = forward + turn;
-
-
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
 
         telemetry.addData("Left Power", leftPower);
         telemetry.addData("Right Power", rightPower);
