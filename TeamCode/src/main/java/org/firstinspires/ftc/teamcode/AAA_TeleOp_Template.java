@@ -42,11 +42,5 @@ private DcMotor rightDrive;
         //Code here will run in a continuous loop until the driver hits STOP
         //This is where we will enter the things we want the robot to do
 
-
-
-
-        telemetry.addData("Left Power", leftPower);
-        telemetry.addData("Right Power", rightPower);
-
     }
 }
