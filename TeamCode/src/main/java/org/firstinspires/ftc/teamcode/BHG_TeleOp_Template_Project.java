@@ -26,11 +26,10 @@ public class BHG_TeleOp_Template_Project extends OpMode {
     DistanceSensor distanceSensor;
     private double servoPosition = 0;
     private boolean rBumperPrev = false;
-    private boolean lBumperPrev = false;
     private long startTime = 0;
     private boolean isPaused = false;
 
-
+    // this is so  i can committtttttttttttttttttt
     @Override
     public void init() {
 
@@ -40,7 +39,7 @@ public class BHG_TeleOp_Template_Project extends OpMode {
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         servo = hardwareMap.get(Servo.class, "servo");
 
-        servo.setPosition(0);
+
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -59,9 +58,10 @@ public class BHG_TeleOp_Template_Project extends OpMode {
 
 
         double forward = gamepad1.left_stick_y;
-        double turn = gamepad1.left_stick_x;
+        double turn = gamepad1.right_stick_x;
         double leftPower = forward + turn;
         double rightPower = forward - turn;
+
 
         if (gamepad1.left_stick_button) {
             leftDrive.setPower(leftPower * 1);
@@ -73,16 +73,18 @@ public class BHG_TeleOp_Template_Project extends OpMode {
             leftDrive.setPower(leftPower * 0.5);
             rightDrive.setPower(rightPower * 0.5);
         }
+
+        boolean r1Servo = false;
         if (gamepad1.right_bumper && !rBumperPrev) {
-            servoPosition += 0.05;
-            servoPosition = Math.min(0.3, servoPosition);
-        } else if (gamepad1.left_bumper && !lBumperPrev) {
-            servoPosition -= 0.05;
-            servoPosition = Math.max(0.0, servoPosition); // Ensure servo does not drop below 0.0
+            if (r1Servo) {
+                servoPosition = 0.3;
+                servo.setPosition(servoPosition);
+            } else {
+                servoPosition = 0;
+                servo.setPosition(servoPosition);
+            }
         }
-        lBumperPrev = gamepad1.left_bumper;
         rBumperPrev = gamepad1.right_bumper;
-        servo.setPosition(servoPosition);
         boolean isPressed = touchSensor.isPressed();
         if (isPressed && !isPaused) {
             startTime = System.currentTimeMillis();
@@ -106,11 +108,11 @@ public class BHG_TeleOp_Template_Project extends OpMode {
             telemetry.update();
         }
         if (distance <= 12) {
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
+            leftDrive.setPower(leftPower * 0.1);
+            rightDrive.setPower(rightPower * 0.1);
 
             long pauseStartTime = System.currentTimeMillis();
-            while(System.currentTimeMillis() - pauseStartTime < 500) {
+            while (System.currentTimeMillis() - pauseStartTime < 500) {
                 // Just wait for 500ms without calling sleep
             }
 
@@ -126,4 +128,5 @@ public class BHG_TeleOp_Template_Project extends OpMode {
         telemetry.addData("Distance", distanceSensor.getDistance(DistanceUnit.INCH));
         telemetry.update();
     }
+
 }
