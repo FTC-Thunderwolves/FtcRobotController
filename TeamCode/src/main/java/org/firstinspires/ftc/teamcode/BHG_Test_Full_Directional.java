@@ -32,17 +32,11 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
         // Initialize motors
         hardwareStart();
 
-
-
         waitForStart();
 
         while (opModeIsActive()) {
             touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor"); //You could instead do TouchSensor touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
             distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
-
-
-
-
 
             double forward = gamepad1.left_stick_y; // Forward/Backward
             double turn = gamepad1.right_stick_x;   // Left/Right turning
