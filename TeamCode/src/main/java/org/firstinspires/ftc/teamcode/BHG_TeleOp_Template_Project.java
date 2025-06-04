@@ -63,6 +63,14 @@ public class BHG_TeleOp_Template_Project extends OpMode {
         double leftPower = forward + turn;
         double rightPower = forward - turn;
 
+
+        //Ben,in the below, why bother saying "*1"?
+        //Also, we should make a habit of ensuring motor speed is never above 1.0
+        //A way to do this is to say "leftDrive.setPower(Math.min(leftPower, 1.0))
+        //How this works:  Math.min(x,y) always returns the smaller of the two values x or y
+        //So, if x (leftPower) is greater than 1.0, it will return 1.0
+        //You can do the same thing in reverse with Math.max(x,y), where it will return larger of the two values
+
         if (gamepad1.left_stick_button) {
             leftDrive.setPower(leftPower * 1);
             rightDrive.setPower(rightPower * 1);
