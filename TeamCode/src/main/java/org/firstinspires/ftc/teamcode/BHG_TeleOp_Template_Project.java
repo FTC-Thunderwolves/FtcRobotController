@@ -64,7 +64,7 @@ public class BHG_TeleOp_Template_Project extends OpMode {
 
 
         if (gamepad1.left_stick_button) {
-            leftDrive.setPower(leftPower * 1);
+            leftDrive.setPower(Math.min(leftPower, 1.0)); // do this anytime you are applying power at or near 1.0 to any motor
             rightDrive.setPower(rightPower * 1);
         } else if (gamepad1.right_trigger != 0) {
             leftDrive.setPower(leftPower * 1);
