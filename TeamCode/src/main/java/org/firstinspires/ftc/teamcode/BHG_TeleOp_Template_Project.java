@@ -28,6 +28,7 @@ public class BHG_TeleOp_Template_Project extends OpMode {
     private boolean rBumperPrev = false;
     private long startTime = 0;
     private boolean isPaused = false;
+    private boolean r1Servo = false;
 
     // this is so  i can committtttttttttttttttttt
     @Override
@@ -39,7 +40,7 @@ public class BHG_TeleOp_Template_Project extends OpMode {
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         servo = hardwareMap.get(Servo.class, "servo");
 
-
+        servo.setPosition(servoPosition);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -74,14 +75,16 @@ public class BHG_TeleOp_Template_Project extends OpMode {
             rightDrive.setPower(rightPower * 0.5);
         }
 
-        boolean r1Servo = false;
+
         if (gamepad1.right_bumper && !rBumperPrev) {
             if (r1Servo) {
-                servoPosition = 0.3;
-                servo.setPosition(servoPosition);
-            } else {
                 servoPosition = 0;
                 servo.setPosition(servoPosition);
+                r1Servo = false;
+            } else {
+                servoPosition = 0.3;
+                servo.setPosition(servoPosition);
+                r1Servo = true;
             }
         }
         rBumperPrev = gamepad1.right_bumper;
