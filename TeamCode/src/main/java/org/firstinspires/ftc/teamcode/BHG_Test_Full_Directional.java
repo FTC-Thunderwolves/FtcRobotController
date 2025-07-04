@@ -20,7 +20,6 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
     private DcMotor leftDrive;
     private DcMotor rightDrive;
     public Servo servo;
-
     TouchSensor touchSensor; //Have to do this somewhere I guess....
     DistanceSensor distanceSensor;
 

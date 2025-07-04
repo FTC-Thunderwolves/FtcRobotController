@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp(name="AAA_TeleOp_Template", group="TeleOp") //Change "AAA_TeleOp_Template" to the name of your OpMode
-public class AAA_TeleOp_Template extends OpMode {
+@TeleOp(name="Default TeleOp OpMode Template", group="TeleOp") //Change "AAA_TeleOp_Template" to the name of your OpMode
+public class AAA_TeleOp_Opmode_Template extends OpMode {
 
   //Declare Variables Here
 private DcMotor leftDrive;

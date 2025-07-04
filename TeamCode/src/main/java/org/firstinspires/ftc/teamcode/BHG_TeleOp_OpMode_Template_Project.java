@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-@TeleOp(name="Ben's TeleOp Project", group="TeleOp") //Change "AAA_TeleOp_Template" to the name of your OpMode
-public class BHG_TeleOp_Template_Project extends OpMode {
+@TeleOp(name="Ben's TeleOp OpMode Project", group="TeleOp") //Change "AAA_TeleOp_Template" to the name of your OpMode
+public class BHG_TeleOp_OpMode_Template_Project extends OpMode {
 
     //Declare Variables Here
     private DcMotor leftDrive;
@@ -40,7 +40,7 @@ public class BHG_TeleOp_Template_Project extends OpMode {
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         servo = hardwareMap.get(Servo.class, "servo");
 
-        servo.setPosition(servoPosition);
+        servo.setPosition(0);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -75,19 +75,12 @@ public class BHG_TeleOp_Template_Project extends OpMode {
             rightDrive.setPower(rightPower * 0.5);
         }
 
-
         if (gamepad1.right_bumper && !rBumperPrev) {
-            if (r1Servo) {
-                servoPosition = 0;
-                servo.setPosition(servoPosition);
-                r1Servo = false;
-            } else {
-                servoPosition = 0.3;
-                servo.setPosition(servoPosition);
-                r1Servo = true;
-            }
+            servoPosition = r1Servo ? 0.0 : 0.35;
+            servo.setPosition(servoPosition);
+            r1Servo = !r1Servo;
         }
-        rBumperPrev = gamepad1.right_bumper;
+
         boolean isPressed = touchSensor.isPressed();
         if (isPressed && !isPaused) {
             startTime = System.currentTimeMillis();
@@ -126,6 +119,7 @@ public class BHG_TeleOp_Template_Project extends OpMode {
 
         telemetry.addData("Left Power", leftPower);
         telemetry.addData("Right Power", rightPower);
+        telemetry.addData("Right Bumper Pressed", gamepad1.right_bumper);
         telemetry.addData("Servo Position", servoPosition);
         telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
         telemetry.addData("Distance", distanceSensor.getDistance(DistanceUnit.INCH));
