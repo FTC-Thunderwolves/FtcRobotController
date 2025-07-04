@@ -29,6 +29,11 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             double backLeftPower = (forward - turn + strafe) * speed;
             double backRightPower = (forward + turn - strafe) * speed;
 
+            frontLeft.setPower(frontLeftPower);
+            frontRight.setPower(frontRightPower);
+            backLeft.setPower(backLeftPower);
+            backRight.setPower(backRightPower);
+
             if(gamepad1.right_bumper) {
                 speed = 1;
             } else if(gamepad1.left_bumper) {
