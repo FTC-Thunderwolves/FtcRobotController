@@ -34,10 +34,10 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
 
-            if(gamepad1.right_bumper) {
+            if(gamepad1.right_trigger > 0) {
                 speed = 1;
-            } else if(gamepad1.left_bumper) {
-                speed = 0.25;
+            } else if(gamepad1.left_stick_button) {
+                speed = 0.1;
             }
         }
     }
