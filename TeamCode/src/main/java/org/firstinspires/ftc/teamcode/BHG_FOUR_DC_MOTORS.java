@@ -14,7 +14,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     @Override
     public void runOpMode() {
         hardwareStart();
-
+        double speed = 0.5;
 
         waitForStart();
 
@@ -22,7 +22,6 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             double forward = gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x/2;
             double strafe = gamepad1.left_stick_x;
-            double speed = 0.5;
 
             double frontLeftPower = (forward + turn + strafe) * speed;
             double frontRightPower = (forward - turn - strafe) * speed;
@@ -37,8 +36,23 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             if(gamepad1.right_trigger > 0) {
                 speed = 1;
             } else if(gamepad1.left_stick_button) {
-                speed = 0.1;
+                speed = 1;
             }
+
+            if(speed > 0.5) {
+                telemetry.addData("State of Speed", "Boosted");
+                telemetry.update();
+            } else if(speed < 0.5) {
+                telemetry.addData("State of Speed", "Diminshed");
+                telemetry.update();
+            } else {
+                telemetry.addData("State of Speed", "Normal");
+                telemetry.update();
+            }
+
+            telemetry.addData("Speed Boost Level", speed);
+            telemetry.update();
+
         }
     }
     private void hardwareStart() {
