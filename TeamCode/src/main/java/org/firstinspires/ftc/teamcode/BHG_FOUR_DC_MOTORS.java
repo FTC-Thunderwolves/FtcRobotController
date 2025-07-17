@@ -46,7 +46,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             } else if(gamepad1.right_bumper) {
                 strafe = strafe/1.5;
             }
-
+ //im writing this so i can commit my code :)
             double distance = distanceSensor.getDistance(DistanceUnit.INCH);
             if (Double.isNaN(distance)) {
                 telemetry.addData("Distance", "Invalid");
