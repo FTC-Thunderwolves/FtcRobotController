@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "Ben 4 Motors", group = "Teleop")
 public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
@@ -10,6 +13,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    DistanceSensor distanceSensor;
 
     @Override
     public void runOpMode() {
@@ -19,6 +23,8 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         waitForStart();
 
         while (opModeIsActive()) {
+            distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+
             double forward = gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x/2;
             double strafe = gamepad1.left_stick_x*1.5;
@@ -39,6 +45,16 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 speed = 1;
             } else if(gamepad1.right_bumper) {
                 strafe = strafe/1.5;
+            }
+
+            double distance = distanceSensor.getDistance(DistanceUnit.INCH);
+            if (Double.isNaN(distance)) {
+                telemetry.addData("Distance", "Invalid");
+                telemetry.update();
+                continue;
+            }
+            if(distance <= 12) {
+                speed = 0.25; //Makes the robot slower so I can move it away from stuff
             }
 
             if(speed > 0.5) {
