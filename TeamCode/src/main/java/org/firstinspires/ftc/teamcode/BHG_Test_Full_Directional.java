@@ -28,8 +28,11 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        // Initialize motors
+
         hardwareStart();
+
+        double servoPosition = 0;
+        boolean toggleServo = false;
 
         waitForStart();
 
@@ -44,28 +47,34 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
             boolean rightBumper = gamepad1.right_bumper;
             double leftPower = forward + turn;
             double rightPower = forward - turn;
+            servo.setPosition(servoPosition);
+
+            if (gamepad1.left_bumper && !toggleServo) {
+                servo.setPosition(0.3);
+                toggleServo = true;
+            } else if (gamepad1.left_bumper && toggleServo) {
+                servo.setPosition(0.0);
+                toggleServo = false;
+            }
+
 
             // Apply power to motors
             if (rightBumper) {
                 leftDrive.setPower(leftPower * 1);
                 rightDrive.setPower(rightPower * 1);
-            } else if (leftBumper) {
-                leftDrive.setPower(leftPower * 0.25);
-                rightDrive.setPower(rightPower * 0.25);
-            }  else {
+            } else {
                 leftDrive.setPower(leftPower * 0.5);
                 rightDrive.setPower(rightPower * 0.5);
             }
+
             // Get game pad input
             if (gamepad1.x) {
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
                 sleep(1000);
-                leftDrive.setPower(gamepad1.left_stick_y);
-                rightDrive.setPower(gamepad1.left_stick_y);
+                leftDrive.setPower(leftPower);
+                rightDrive.setPower(rightPower);
             }
-//hi this is so i can commit this
-            servoStuff();
 
             // Check if the sensor is pressed
             boolean isPressed = touchSensor.isPressed();
@@ -107,6 +116,7 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
 
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
+            telemetry.addData("Servo Position", servoPosition);
             telemetry.update();
         }
         visionPortal.close(); // Closes the VisionPortal when the OpMode ends
@@ -150,31 +160,5 @@ public class BHG_Test_Full_Directional extends LinearOpMode {
        // Wait for driver to press the start button
        telemetry.addData("Status", "Waiting for Start");
        telemetry.update();
-   }
-   private void servoStuff() {
-       double servoPosition = 0;
-       servo.setPosition(servoPosition);
-       if(gamepad1.dpad_down) {
-           servoPosition = 0;
-           servo.setPosition(servoPosition);
-       } else if(gamepad1.dpad_up) {
-           servoPosition = 1;
-           servo.setPosition(servoPosition);
-       } else if(gamepad1.dpad_right) {
-           if(servoPosition >= 1) {
-               servo.setPosition(1);
-           } else {
-               servoPosition = servoPosition + 0.1;
-               servo.setPosition(servoPosition);
-           }
-       } else if(gamepad1.dpad_left) {
-           if(servoPosition <= 0)  {
-               servo.setPosition(0);
-           } else {
-               servoPosition = servoPosition - 0.1;
-               servo.setPosition(servoPosition);
-           }
-       }
-       telemetry.addData("Servo Position", servoPosition);
    }
 }

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -13,12 +14,15 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    Servo servo;
     DistanceSensor distanceSensor;
 
     @Override
     public void runOpMode() {
         hardwareStart();
         double speed = 0.5;
+        double servoPosition = 0;
+        boolean isPosition = false;
 
         waitForStart();
 
@@ -38,6 +42,13 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             frontRight.setPower(frontRightPower);
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
+            servo.setPosition(servoPosition);
+
+            if(servoPosition == 0) {
+                isPosition = false;
+            } else if(servoPosition == 0.3) {
+                isPosition = true;
+            }
 
             if(gamepad1.right_trigger > 0) {
                 speed = 1;
@@ -45,8 +56,12 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 speed = 1;
             } else if(gamepad1.right_bumper) {
                 strafe = strafe/1.5;
+            } else if(gamepad1.left_bumper && !isPosition) {
+                servoPosition = 0.3;
+            } else if(gamepad1.left_bumper && isPosition) {
+                servoPosition = 0;
             }
- //im writing this so i can commit my code :)
+
             double distance = distanceSensor.getDistance(DistanceUnit.INCH);
             if (Double.isNaN(distance)) {
                 telemetry.addData("Distance", "Invalid");
@@ -78,6 +93,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         frontRight  = hardwareMap.get(DcMotor.class, "FR");
         backLeft = hardwareMap.get(DcMotor.class, "BL");
         backRight  = hardwareMap.get(DcMotor.class, "BR");
+        servo = hardwareMap.get(Servo.class, "servo");
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
