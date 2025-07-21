@@ -14,24 +14,24 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-    Servo servo;
-    DistanceSensor distanceSensor;
+   // Servo servo;
+    //DistanceSensor distanceSensor;
 
     @Override
     public void runOpMode() {
         hardwareStart();
         double speed = 0.5;
-        double servoPosition = 0;
-        boolean isPosition = false;
+        //double servoPosition = 0;
+        //boolean isPosition = false;
 
         waitForStart();
 
         while (opModeIsActive()) {
-            distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+            //distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
             double forward = gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x/2;
-            double strafe = gamepad1.left_stick_x*1.5;
+            double turn = -gamepad1.right_stick_x/2;
+            double strafe = -gamepad1.left_stick_x/1.5;
 
             double frontLeftPower = (forward + turn + strafe) * speed;
             double frontRightPower = (forward - turn - strafe) * speed;
@@ -42,27 +42,29 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             frontRight.setPower(frontRightPower);
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
-            servo.setPosition(servoPosition);
+            /*servo.setPosition(servoPosition);
 
             if(servoPosition == 0) {
                 isPosition = false;
             } else if(servoPosition == 0.3) {
                 isPosition = true;
-            }
+            }*/
 
             if(gamepad1.right_trigger > 0) {
                 speed = 1;
             } else if(gamepad1.left_stick_button) {
                 speed = 1;
             } else if(gamepad1.right_bumper) {
-                strafe = strafe/1.5;
-            } else if(gamepad1.left_bumper && !isPosition) {
+                strafe = strafe*1.5;
+            } else {
+                speed = 0.5;
+            } /*else if(gamepad1.left_bumper && !isPosition) {
                 servoPosition = 0.3;
             } else if(gamepad1.left_bumper && isPosition) {
                 servoPosition = 0;
-            }
+            }*/
 
-            double distance = distanceSensor.getDistance(DistanceUnit.INCH);
+            /*double distance = distanceSensor.getDistance(DistanceUnit.INCH);
             if (Double.isNaN(distance)) {
                 telemetry.addData("Distance", "Invalid");
                 telemetry.update();
@@ -70,18 +72,18 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             }
             if(distance <= 12) {
                 speed = 0.25; //Makes the robot slower so I can move it away from stuff
-            }
+            }*/
 
             if(speed > 0.5) {
                 telemetry.addData("State of Speed", "Boosted");
-                telemetry.update();
             } else if(speed < 0.5) {
                 telemetry.addData("State of Speed", "Diminshed");
-                telemetry.update();
             } else {
                 telemetry.addData("State of Speed", "Normal");
-                telemetry.update();
             }
+            telemetry.addData("Forward", forward);
+            telemetry.addData("Turn", turn);
+            telemetry.addData("Strafe", strafe);
 
             telemetry.addData("Speed Multiplier Level", speed*2);
             telemetry.update();
@@ -93,12 +95,13 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         frontRight  = hardwareMap.get(DcMotor.class, "FR");
         backLeft = hardwareMap.get(DcMotor.class, "BL");
         backRight  = hardwareMap.get(DcMotor.class, "BR");
-        servo = hardwareMap.get(Servo.class, "servo");
+        //servo = hardwareMap.get(Servo.class, "servo");
 
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
+
 
         telemetry.addData("Status","Initialized");
         telemetry.update();
