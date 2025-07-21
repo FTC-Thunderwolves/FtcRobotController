@@ -1,0 +1,109 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+@TeleOp(name = "JLG_Mecanum", group = "Teleop")
+public class JLG_Mecanum extends LinearOpMode{
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
+    // Servo servo;
+    //DistanceSensor distanceSensor;
+
+    @Override
+    public void runOpMode() {
+        hardwareStart();
+        //double speed = 0.5;
+        //double servoPosition = 0;
+        //boolean isPosition = false;
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            //distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+
+            double forward = gamepad1.left_stick_y;
+            double turn = -gamepad1.right_stick_x;
+            double strafe = -gamepad1.left_stick_x;
+
+            double frontLeftPower = (forward + turn + strafe) /2;
+            double frontRightPower = (forward - turn - strafe) /2;
+            double backLeftPower = (forward - turn + strafe) /2;
+            double backRightPower = (forward + turn - strafe) /2;
+
+            frontLeft.setPower(frontLeftPower);
+            frontRight.setPower(frontRightPower);
+            backLeft.setPower(backLeftPower);
+            backRight.setPower(backRightPower);
+            /*servo.setPosition(servoPosition);
+
+            if(servoPosition == 0) {
+                isPosition = false;
+            } else if(servoPosition == 0.3) {
+                isPosition = true;
+            }
+
+            if(gamepad1.right_trigger > 0) {
+                speed = 1;
+            } else if(gamepad1.left_stick_button) {
+                speed = 1;
+            } else if(gamepad1.right_bumper) {
+                strafe = strafe*1.5;
+            } else {
+                speed = 0.5;
+            } /*else if(gamepad1.left_bumper && !isPosition) {
+                servoPosition = 0.3;
+            } else if(gamepad1.left_bumper && isPosition) {
+                servoPosition = 0;
+            }*/
+
+            /*double distance = distanceSensor.getDistance(DistanceUnit.INCH);
+            if (Double.isNaN(distance)) {
+                telemetry.addData("Distance", "Invalid");
+                telemetry.update();
+                continue;
+            }
+            if(distance <= 12) {
+                speed = 0.25; //Makes the robot slower so I can move it away from stuff
+            }*/
+
+            /*if(speed > 0.5) {
+                telemetry.addData("State of Speed", "Boosted");
+            } else if(speed < 0.5) {
+                telemetry.addData("State of Speed", "Diminshed");
+            } else {
+                telemetry.addData("State of Speed", "Normal");
+            }*/
+            telemetry.addData("Forward", forward);
+            telemetry.addData("Turn", turn);
+            telemetry.addData("Strafe", strafe);
+
+            //telemetry.addData("Speed Multiplier Level", speed*2);
+            telemetry.update();
+
+        }
+    }
+    private void hardwareStart() {
+        frontLeft = hardwareMap.get(DcMotor.class, "FL");
+        frontRight  = hardwareMap.get(DcMotor.class, "FR");
+        backLeft = hardwareMap.get(DcMotor.class, "BL");
+        backRight  = hardwareMap.get(DcMotor.class, "BR");
+        //servo = hardwareMap.get(Servo.class, "servo");
+
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+
+
+        telemetry.addData("Status","Initialized");
+        telemetry.update();
+    }
+}
