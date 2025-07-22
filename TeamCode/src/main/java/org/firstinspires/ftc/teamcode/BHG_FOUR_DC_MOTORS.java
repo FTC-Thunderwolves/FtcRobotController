@@ -20,7 +20,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     @Override
     public void runOpMode() {
         hardwareStart();
-        double speed = 0.5;
+        double speed = 1.5;
         //double servoPosition = 0;
         //boolean isPosition = false;
 
@@ -31,7 +31,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
 
             double forward = gamepad1.left_stick_y;
             double turn = -gamepad1.right_stick_x/2;
-            double strafe = -gamepad1.left_stick_x/1.5;
+            double strafe = gamepad1.left_stick_x;
 
             double frontLeftPower = (forward + turn + strafe) * speed;
             double frontRightPower = (forward - turn - strafe) * speed;
@@ -54,8 +54,6 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 speed = 1;
             } else if(gamepad1.left_stick_button) {
                 speed = 1;
-            } else if(gamepad1.right_bumper) {
-                strafe = strafe*1.5;
             } else {
                 speed = 0.5;
             } /*else if(gamepad1.left_bumper && !isPosition) {
@@ -100,7 +98,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
 
         telemetry.addData("Status","Initialized");
