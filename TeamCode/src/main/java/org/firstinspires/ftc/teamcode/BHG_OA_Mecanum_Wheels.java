@@ -7,20 +7,27 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "BHG_Object Avoidance", group = "Autonomous")
-public class BHG_Object_Avoidance extends LinearOpMode {
-    private DcMotor leftDrive;
-    private DcMotor rightDrive;
+@Autonomous(name = "Ben Object Avoidance Mecanum Wheels", group = "Autonomous")
+public class BHG_OA_Mecanum_Wheels extends LinearOpMode {
+    private DcMotor frontLeft;
+    private DcMotor frontRight;
+    private DcMotor backLeft;
+    private DcMotor backRight;
     DistanceSensor distanceSensor;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        frontLeft = hardwareMap.get(DcMotor.class, "FL");
+        frontRight  = hardwareMap.get(DcMotor.class, "FR");
+        backLeft = hardwareMap.get(DcMotor.class, "BL");
+        backRight  = hardwareMap.get(DcMotor.class, "BR");
+
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
         // Set motor direction (adjust based on physical setup)
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
 
@@ -34,20 +41,24 @@ public class BHG_Object_Avoidance extends LinearOpMode {
                 telemetry.update();
                 continue; // Skip loop iteration if the distance is invalid
             }
+            double x = 0;
+            double y = 0;
 
             if (distance > 12) {
-                // Move forward
-                leftDrive.setPower(-0.35);
-                rightDrive.setPower(-0.35);
+                x = -0.35;
+                y = -0.35;
             } else if (distance <= 12) {
-                // Reverse when too close
-                leftDrive.setPower(0.25);
-                rightDrive.setPower(0.25);
-                sleep(1500);
-                leftDrive.setPower(-0.5);
-                rightDrive.setPower(0);
-                sleep(1000);
+               x = 0.25;
+               y = 0.25;
+               sleep(1500);
+               x = -0.5;
+               y = 0;
+               sleep(1000);
             }
+            frontLeft.setPower(x);
+            frontRight.setPower(y);
+            backLeft.setPower(x);
+            backRight.setPower(y);
             telemetry.addData("Distance", distance);
             telemetry.update();
         }

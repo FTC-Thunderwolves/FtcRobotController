@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "Ben 4 Motors", group = "Teleop")
@@ -15,7 +15,8 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     public DcMotor backLeft;
     public DcMotor backRight;
    // Servo servo;
-    //DistanceSensor distanceSensor;
+    TouchSensor touchSensor;
+    DistanceSensor distanceSensor;
 
     @Override
     public void runOpMode() {
@@ -27,11 +28,13 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         waitForStart();
 
         while (opModeIsActive()) {
-            //distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+            touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
+            distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
             double forward = gamepad1.left_stick_y;
             double turn = -gamepad1.right_stick_x/2;
             double strafe = gamepad1.left_stick_x;
+            boolean isPressed = touchSensor.isPressed();
 
             double frontLeftPower = (forward + turn + strafe) * speed;
             double frontRightPower = (forward - turn - strafe) * speed;
@@ -62,7 +65,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 servoPosition = 0;
             }*/
 
-            /*double distance = distanceSensor.getDistance(DistanceUnit.INCH);
+            double distance = distanceSensor.getDistance(DistanceUnit.INCH);
             if (Double.isNaN(distance)) {
                 telemetry.addData("Distance", "Invalid");
                 telemetry.update();
@@ -70,7 +73,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             }
             if(distance <= 12) {
                 speed = 0.25; //Makes the robot slower so I can move it away from stuff
-            }*/
+            }
 
             if(speed > 0.5) {
                 telemetry.addData("State of Speed", "Boosted");
@@ -82,8 +85,8 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             telemetry.addData("Forward", forward);
             telemetry.addData("Turn", turn);
             telemetry.addData("Strafe", strafe);
-
             telemetry.addData("Speed Multiplier Level", speed*2);
+            telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
             telemetry.update();
 
         }
@@ -98,7 +101,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
 
 
         telemetry.addData("Status","Initialized");

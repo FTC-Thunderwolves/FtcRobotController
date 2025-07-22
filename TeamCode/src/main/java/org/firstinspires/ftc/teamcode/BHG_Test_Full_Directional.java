@@ -16,7 +16,6 @@ import java.util.List; // Imports List functionality for storing multiple detect
 
 @TeleOp(name = "BHG Full Directional", group = "TeleOp")
 public class BHG_Test_Full_Directional extends LinearOpMode {
-
     private DcMotor leftDrive;
     private DcMotor rightDrive;
     public Servo servo;
