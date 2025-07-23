@@ -44,16 +44,16 @@ public class JLG_OA_Mecanum extends LinearOpMode {
 
 
             if (distance > 12) {
-                frontLeft.setPower(0.5);
-                frontRight.setPower(0.5);
-                backLeft.setPower(0.5);
-                backRight.setPower(0.5);
-            }
-            else if (distance <= 12) {
                 frontLeft.setPower(-0.5);
                 frontRight.setPower(-0.5);
                 backLeft.setPower(-0.5);
                 backRight.setPower(-0.5);
+            }
+            else if (distance <= 12) {
+                frontLeft.setPower(0.5);
+                frontRight.setPower(0.5);
+                backLeft.setPower(0.5);
+                backRight.setPower(0.5);
             }
 
             telemetry.addData("Distance", distance);

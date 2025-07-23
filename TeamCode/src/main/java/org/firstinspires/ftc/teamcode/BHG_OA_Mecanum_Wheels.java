@@ -22,10 +22,10 @@ public class BHG_OA_Mecanum_Wheels extends LinearOpMode {
         backLeft = hardwareMap.get(DcMotor.class, "BL");
         backRight  = hardwareMap.get(DcMotor.class, "BR");
 
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
         // Set motor direction (adjust based on physical setup)
 
@@ -41,24 +41,24 @@ public class BHG_OA_Mecanum_Wheels extends LinearOpMode {
                 telemetry.update();
                 continue; // Skip loop iteration if the distance is invalid
             }
-            double x = 0;
-            double y = 0;
 
             if (distance > 12) {
-                x = -0.35;
-                y = -0.35;
+                frontLeft.setPower(0.25);
+                frontRight.setPower(0.25);
+                backLeft.setPower(0.25);
+                backRight.setPower(0.25);
             } else if (distance <= 12) {
-               x = 0.25;
-               y = 0.25;
+               frontLeft.setPower(-0.25);
+               frontRight.setPower(-0.25);
+               backLeft.setPower(-0.25);
+               backRight.setPower(-0.25);
                sleep(1500);
-               x = -0.5;
-               y = 0;
+               frontLeft.setPower(0.5);
+               backLeft.setPower(0.5);
+               frontRight.setPower(0);
+               backRight.setPower(0);
                sleep(1000);
             }
-            frontLeft.setPower(x);
-            frontRight.setPower(y);
-            backLeft.setPower(x);
-            backRight.setPower(y);
             telemetry.addData("Distance", distance);
             telemetry.update();
         }
