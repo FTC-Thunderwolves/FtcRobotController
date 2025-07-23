@@ -31,7 +31,7 @@ public class BHG_OA_Mecanum_Wheels extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
 
-        waitForStart();
+        waitForStart();//hi
 
         while (opModeIsActive()) {
             double distance = distanceSensor.getDistance(DistanceUnit.INCH);

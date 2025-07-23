@@ -41,7 +41,7 @@ public class JLG_OA_Mecanum extends LinearOpMode {
                 telemetry.update();
                 continue; // Skip loop iteration if the distance is invalid
             }
-
+//bkdkdk
 
             if (distance > 12) {
                 frontLeft.setPower(-0.5);
