@@ -26,6 +26,9 @@ public class JLG_OA_Mecanum extends LinearOpMode {
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
+
+
+
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
         // Set motor direction (adjust based on physical setup)
 
@@ -40,6 +43,21 @@ public class JLG_OA_Mecanum extends LinearOpMode {
                 telemetry.addData("Distance", "Invalid");
                 telemetry.update();
                 continue; // Skip loop iteration if the distance is invalid
+            }
+
+            if (gamepad1.x) {
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
+
+            if (gamepad1.y) {
+                frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
             }
 //bkdkdk
 
@@ -57,6 +75,11 @@ public class JLG_OA_Mecanum extends LinearOpMode {
             }
 
             telemetry.addData("Distance", distance);
+            telemetry.addData("FL Position:", frontLeft.getCurrentPosition());
+            telemetry.addData("FR Position:", frontRight.getCurrentPosition());
+            telemetry.addData("BL Position:", backLeft.getCurrentPosition());
+            telemetry.addData("BR Position:", backRight.getCurrentPosition());
+
             telemetry.update();
         }
     }
