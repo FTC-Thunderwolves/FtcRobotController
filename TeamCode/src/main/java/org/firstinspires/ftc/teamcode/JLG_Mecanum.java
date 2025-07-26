@@ -48,14 +48,12 @@ public class JLG_Mecanum extends LinearOpMode{
                 frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            }
-            if (gamepad1.b) {
                 frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
             }
+
 
 
             telemetry.addData("Front Left Encoder", frontLeft.getCurrentPosition());
