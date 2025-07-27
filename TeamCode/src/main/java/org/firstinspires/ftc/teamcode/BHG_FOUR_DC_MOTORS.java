@@ -97,8 +97,13 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             telemetry.addData("Forward", forward);
             telemetry.addData("Turn", turn);
             telemetry.addData("Strafe", strafe);
+            telemetry.addData("FL Encoder", frontLeft.getCurrentPosition());
+            telemetry.addData("FR Encoder", frontRight.getCurrentPosition());
+            telemetry.addData("BL Encoder", backLeft.getCurrentPosition());
+            telemetry.addData("BR Encoder", backRight.getCurrentPosition());
             telemetry.addData("Speed Multiplier Level", speed*2);
             telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
+            telemetry.addData("Distance", distance);
             telemetry.update();
 
         }
