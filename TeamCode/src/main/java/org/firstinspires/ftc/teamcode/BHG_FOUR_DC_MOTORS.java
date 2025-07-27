@@ -45,9 +45,21 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             frontRight.setPower(frontRightPower);
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
-            /*servo.setPosition(servoPosition);
+            //servo.setPosition(servoPosition);
 
-            if(servoPosition == 0) {
+             if(gamepad1.a){
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            } else if(gamepad1.b) {
+                frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+           /* if(servoPosition == 0) {
                 isPosition = false;
             } else if(servoPosition == 0.3) {
                 isPosition = true;
