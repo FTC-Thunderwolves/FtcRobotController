@@ -32,14 +32,14 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
             double forward = gamepad1.left_stick_y;
+            double strafe = -gamepad1.left_stick_x;
             double turn = -gamepad1.right_stick_x/2;
-            double strafe = gamepad1.left_stick_x;
             boolean isPressed = touchSensor.isPressed();
 
-            double frontLeftPower = (forward + turn + strafe) * speed;
-            double frontRightPower = (forward - turn - strafe) * speed;
-            double backLeftPower = (forward - turn + strafe) * speed;
-            double backRightPower = (forward + turn - strafe) * speed;
+            double frontLeftPower = (forward + strafe + turn) * speed;
+            double frontRightPower = (forward - strafe - turn) * speed;
+            double backLeftPower = (forward - strafe + turn) * speed;
+            double backRightPower = (forward + strafe - turn) * speed;
 
             frontLeft.setPower(frontLeftPower);
             frontRight.setPower(frontRightPower);
