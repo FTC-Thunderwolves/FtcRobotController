@@ -42,50 +42,28 @@ public class JLG_Mecanum extends LinearOpMode{
             frontRight.setPower(frontRightPower);
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
-            /*servo.setPosition(servoPosition);
 
-            if(servoPosition == 0) {
-                isPosition = false;
-            } else if(servoPosition == 0.3) {
-                isPosition = true;
+            if (gamepad1.a) {
+                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
 
-            if(gamepad1.right_trigger > 0) {
-                speed = 1;
-            } else if(gamepad1.left_stick_button) {
-                speed = 1;
-            } else if(gamepad1.right_bumper) {
-                strafe = strafe*1.5;
-            } else {
-                speed = 0.5;
-            } /*else if(gamepad1.left_bumper && !isPosition) {
-                servoPosition = 0.3;
-            } else if(gamepad1.left_bumper && isPosition) {
-                servoPosition = 0;
-            }*/
 
-            /*double distance = distanceSensor.getDistance(DistanceUnit.INCH);
-            if (Double.isNaN(distance)) {
-                telemetry.addData("Distance", "Invalid");
-                telemetry.update();
-                continue;
-            }
-            if(distance <= 12) {
-                speed = 0.25; //Makes the robot slower so I can move it away from stuff
-            }*/
 
-            /*if(speed > 0.5) {
-                telemetry.addData("State of Speed", "Boosted");
-            } else if(speed < 0.5) {
-                telemetry.addData("State of Speed", "Diminshed");
-            } else {
-                telemetry.addData("State of Speed", "Normal");
-            }*/
-            telemetry.addData("Forward", forward);
-            telemetry.addData("Turn", turn);
-            telemetry.addData("Strafe", strafe);
+            telemetry.addData("Front Left Encoder", frontLeft.getCurrentPosition());
+            telemetry.addData("Front Right Encoder", frontRight.getCurrentPosition());
+            telemetry.addData("Back Left Encoder", backLeft.getCurrentPosition());
+            telemetry.addData("Back Right Encoder", backRight.getCurrentPosition());
 
-            //telemetry.addData("Speed Multiplier Level", speed*2);
+
+
+
             telemetry.update();
 
         }
