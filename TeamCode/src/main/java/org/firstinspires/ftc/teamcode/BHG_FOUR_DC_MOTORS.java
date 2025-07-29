@@ -6,7 +6,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.List;
 
 @TeleOp(name = "Ben 4 Motors", group = "Teleop")
 public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
@@ -17,6 +24,9 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
    // Servo servo;
     TouchSensor touchSensor;
     DistanceSensor distanceSensor;
+
+    public VisionPortal visionPortal;
+    public AprilTagProcessor aprilTagProcessor;
 
     @Override
     public void runOpMode() {
@@ -77,6 +87,22 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 servoPosition = 0;
             }*/
 
+            List<AprilTagDetection> detections = aprilTagProcessor.getDetections(); // Retrieves detected AprilTags
+            if (detections.isEmpty()) {
+                telemetry.addData("NO TAG DETECTED", "No AprilTags found");
+            } else {
+
+
+                for (AprilTagDetection tag : detections) { // Loops through all detected AprilTags
+                    telemetry.addData("AprilTag Detected!", "ID: %d", tag.id);
+
+
+
+                }
+
+
+            }
+
             double distance = distanceSensor.getDistance(DistanceUnit.INCH);
             if (Double.isNaN(distance)) {
                 telemetry.addData("Distance", "Invalid");
@@ -114,6 +140,14 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         backLeft = hardwareMap.get(DcMotor.class, "BL");
         backRight  = hardwareMap.get(DcMotor.class, "BR");
         //servo = hardwareMap.get(Servo.class, "servo");
+
+        aprilTagProcessor = new AprilTagProcessor.Builder().build(); // Creates an AprilTagProcessor instance
+
+        // Create VisionPortal with webcam
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")) // Uses the configured webcam
+                .addProcessor(aprilTagProcessor) // Adds the AprilTag processor to handle detections
+                .build(); // Builds the VisionPortal instance
 
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
