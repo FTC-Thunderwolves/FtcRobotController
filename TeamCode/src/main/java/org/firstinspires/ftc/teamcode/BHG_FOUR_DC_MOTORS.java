@@ -21,7 +21,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-   // Servo servo;
+    Servo servo;
     TouchSensor touchSensor;
     DistanceSensor distanceSensor;
 
@@ -32,8 +32,8 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     public void runOpMode() {
         hardwareStart();
         double speed = 1.5;
-        //double servoPosition = 0;
-        //boolean isPosition = false;
+        double servoPosition = 0;
+        boolean isPosition = false;
 
         waitForStart();
 
@@ -55,7 +55,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             frontRight.setPower(frontRightPower);
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
-            //servo.setPosition(servoPosition);
+            servo.setPosition(servoPosition);
 
              if(gamepad1.a){
                 frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -69,11 +69,11 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
 
-           /* if(servoPosition == 0) {
+           if(servoPosition == 0) {
                 isPosition = false;
             } else if(servoPosition == 0.3) {
                 isPosition = true;
-            }*/
+            }
 
             if(gamepad1.right_trigger > 0) {
                 speed = 1;
@@ -81,11 +81,13 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 speed = 1;
             } else {
                 speed = 0.5;
-            } /*else if(gamepad1.left_bumper && !isPosition) {
+            }
+
+            if(gamepad1.left_bumper && !isPosition) {
                 servoPosition = 0.3;
             } else if(gamepad1.left_bumper && isPosition) {
                 servoPosition = 0;
-            }*/
+            }
 
             List<AprilTagDetection> detections = aprilTagProcessor.getDetections(); // Retrieves detected AprilTags
             if (detections.isEmpty()) {
