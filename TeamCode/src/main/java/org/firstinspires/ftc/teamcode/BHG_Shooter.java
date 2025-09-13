@@ -13,19 +13,23 @@ public class BHG_Shooter extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive  = hardwareMap.get(DcMotor.class, "rightDrive");
 
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
         while(opModeIsActive()) {
 
-            if(gamepad1.right_bumper) {
+            if(gamepad1.a) {
                 leftDrive.setPower(0.5);
                 rightDrive.setPower(0.5);
-            } else if(gamepad1.left_bumper) {
+
+            } else if(gamepad1.b) {
                 leftDrive.setPower(1);
-                leftDrive.setPower(1);
+                rightDrive.setPower(1);
+            } else {
+                leftDrive.setPower(0);
+                rightDrive.setPower(0);
             }
         }
     }
