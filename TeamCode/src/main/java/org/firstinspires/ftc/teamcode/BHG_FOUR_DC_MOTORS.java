@@ -31,8 +31,8 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
     @Override
     public void runOpMode() {
         hardwareStart();
-        double speed = 1.5;
-        double servoPosition = 0;
+        double speed = 0.5;
+        //double servoPosition = 0;
         boolean isPosition = false;
 
         waitForStart();
@@ -55,25 +55,19 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             frontRight.setPower(frontRightPower);
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
-            servo.setPosition(servoPosition);
+            //servo.setPosition(servoPosition);
 
-             if(gamepad1.a){
-                frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            } else if(gamepad1.b) {
-                frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
+             if(gamepad1.left_bumper) {
+                 servo.setPosition(0);
+             } else if(gamepad1.right_bumper) {
+                 servo.setPosition(1);
+             }
 
-           if(servoPosition == 0) {
+           /*if(servoPosition == 0) {
                 isPosition = false;
             } else if(servoPosition == 0.3) {
                 isPosition = true;
-            }
+            }*/
 
             if(gamepad1.right_trigger > 0) {
                 speed = 1;
@@ -83,11 +77,11 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
                 speed = 0.5;
             }
 
-            if(gamepad1.left_bumper && !isPosition) {
+            /*if(gamepad1.left_bumper && !isPosition) {
                 servoPosition = 0.3;
             } else if(gamepad1.left_bumper && isPosition) {
                 servoPosition = 0;
-            }
+            }*/
 
             List<AprilTagDetection> detections = aprilTagProcessor.getDetections(); // Retrieves detected AprilTags
             if (detections.isEmpty()) {
@@ -125,10 +119,6 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
             telemetry.addData("Forward", forward);
             telemetry.addData("Turn", turn);
             telemetry.addData("Strafe", strafe);
-            telemetry.addData("FL Encoder", frontLeft.getCurrentPosition());
-            telemetry.addData("FR Encoder", frontRight.getCurrentPosition());
-            telemetry.addData("BL Encoder", backLeft.getCurrentPosition());
-            telemetry.addData("BR Encoder", backRight.getCurrentPosition());
             telemetry.addData("Speed Multiplier Level", speed*2);
             telemetry.addData("Touch Sensor", isPressed ? "PRESSED" : "NOT PRESSED");
             telemetry.addData("Distance", distance);
@@ -141,7 +131,7 @@ public class BHG_FOUR_DC_MOTORS extends LinearOpMode{
         frontRight  = hardwareMap.get(DcMotor.class, "FR");
         backLeft = hardwareMap.get(DcMotor.class, "BL");
         backRight  = hardwareMap.get(DcMotor.class, "BR");
-        //servo = hardwareMap.get(Servo.class, "servo");
+        servo = hardwareMap.get(Servo.class, "servo");
 
         aprilTagProcessor = new AprilTagProcessor.Builder().build(); // Creates an AprilTagProcessor instance
 
